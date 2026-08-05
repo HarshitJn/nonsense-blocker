@@ -19,16 +19,24 @@ When you visit any of the configured distracting websites, the extension automat
 
 Since this extension is not published to the Chrome Web Store, you can load it locally on your laptop using Chrome's Developer Mode:
 
-### Step 1: Open Chrome Extension Settings
+### Step 1: Download the Extension Folder
+You can get the extension folder onto your local laptop in one of two ways:
+* **Option A (No Git required):** Go to the GitHub repository page at `https://github.com/HarshitJn/nonsense-blocker`, click the green **Code** button, select **Download ZIP**, and then extract/unzip the downloaded file on your computer.
+* **Option B (Using Git):** Run the following command in your terminal:
+  ```bash
+  git clone https://github.com/HarshitJn/nonsense-blocker.git
+  ```
+
+### Step 2: Open Chrome Extension Settings
 1. Open Google Chrome.
 2. Navigate to `chrome://extensions/` by typing it into your address bar, or click the **three dots menu** (top right) -> **Extensions** -> **Manage Extensions**.
 
-### Step 2: Enable Developer Mode
+### Step 3: Enable Developer Mode
 1. In the top right corner of the Extensions page, toggle the **Developer mode** switch to **ON**.
 
-### Step 3: Load the Unpacked Extension
+### Step 4: Load the Unpacked Extension
 1. Click the **Load unpacked** button that appears in the top-left corner.
-2. Select the `nonsense-blocker` folder containing the extension files (make sure you select the root folder that has `manifest.json` directly inside it).
+2. Select the extracted `nonsense-blocker` folder (make sure you select the root folder that contains the `manifest.json` file directly).
 
 The extension is now installed and active!
 
