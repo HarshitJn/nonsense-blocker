@@ -1,98 +1,49 @@
 # Nonsense Blocker
 
-A simple and lightweight Google Chrome extension to help you stay focused by blocking distracting websites locally and displaying motivational/thought-provoking quotes instead.
+Yeah social media is bad, screen time is ruinous, bla bla bla. Just use this tool to stop wasting your life.
 
 ## How It Works
 
-When you visit any of the configured distracting websites, the extension automatically redirects your browser to a local page (`blocked.html`) containing an inspirational quote to nudge you back to productivity.
+You try to go to a distracting website. We block you and make you click a grid of tiles (moments of pause) to reveal quotes before letting you through. By the time you finish clicking, you might actually remember you have a life.
 
-### Blocked Websites by Default
-- Reddit (`reddit.com`)
-- Instagram (`instagram.com`)
-- LinkedIn (`linkedin.com`)
-- TradingView (`tradingview.com`)
-- Pinterest (`pinterest.com`)
-
----
-
-## How to Install and Use (Developer / Unpacked Mode)
-
-Since this extension is not published to the Chrome Web Store, you can load it locally on your laptop using Chrome's Developer Mode:
-
-### Step 1: Download the Extension Folder
-You can get the extension folder onto your local laptop in one of two ways:
-* **Option A (No Git required):** Go to the GitHub repository page at `https://github.com/HarshitJn/nonsense-blocker`, click the green **Code** button, select **Download ZIP**, and then extract/unzip the downloaded file on your computer.
-* **Option B (Using Git):** Run the following command in your terminal:
-  ```bash
-  git clone https://github.com/HarshitJn/nonsense-blocker.git
-  ```
-
-### Step 2: Open Chrome Extension Settings
-1. Open Google Chrome.
-2. Navigate to `chrome://extensions/` by typing it into your address bar, or click the **three dots menu** (top right) -> **Extensions** -> **Manage Extensions**.
-
-### Step 3: Enable Developer Mode
-1. In the top right corner of the Extensions page, toggle the **Developer mode** switch to **ON**.
-
-### Step 4: Load the Unpacked Extension
-1. Click the **Load unpacked** button that appears in the top-left corner.
-2. Select the extracted `nonsense-blocker` folder (make sure you select the root folder that contains the `manifest.json` file directly).
-
-The extension is now installed and active!
+### What We Block by Default
+* **Instagram** (influencer packing videos and mindless reels)
+* **Reddit** (pointless arguments with strangers)
+* **LinkedIn** (hustle cringe and B2B sales lessons from coffee cups)
+* **TradingView** (watching red/green candles go up and down)
+* **Pinterest** (boards for DIY projects you'll never start)
 
 ---
 
-## NO, I want to watch that reel NOW! (How to Temporarily Bypass)
+## Quick Setup (Chrome Local Mode)
 
-If you genuinely need to access a blocked site (e.g., for work or an important update), you can append `?unblock=true` to the URL. For example:
-- `https://www.linkedin.com/?unblock=true`
+1. **Download this folder**
+   * **No Git:** Download the ZIP from GitHub and unzip it.
+   * **With Git:** Run:
+     ```bash
+     git clone https://github.com/HarshitJn/nonsense-blocker.git
+     ```
+2. **Go to Chrome Settings**
+   * Open Chrome and navigate to `chrome://extensions/`.
+3. **Turn on Developer Mode**
+   * Toggle the **Developer mode** switch in the top-right corner to **ON**.
+4. **Load Unpacked**
+   * Click **Load unpacked** (top-left) and select this folder.
+
+Done. Go try opening Instagram.
 
 ---
 
-## How to Customize Blocked Websites (rules.json)
+## NO, I want to watch that reel NOW! (Bypass)
 
-You can easily add new websites to block or remove the existing ones by modifying two files:
+If you genuinely can't resist, append `?unblock=true` to the end of the URL:
+- `https://instagram.com/?unblock=true`
 
-### 1. Update `rules.json`
-Open [rules.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/rules.json) and add a new rule object at the end of the array. Make sure to:
-- Give it a unique `id` number.
-- Replace `example.com` with the domain you want to block.
-- Point the redirect to `blocked.html?target=https://www.example.com/`.
+---
 
-Example rule format:
-```json
-{
-  "id": 7,
-  "priority": 1,
-  "action": {
-    "type": "redirect",
-    "redirect": { "extensionPath": "/blocked.html?target=https://www.facebook.com/" }
-  },
-  "condition": {
-    "urlFilter": "||facebook.com",
-    "resourceTypes": ["main_frame"]
-  }
-}
-```
+## Want to block more nonsense?
 
-### 2. Update `manifest.json`
-Open [manifest.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/manifest.json) and add the new domain to the `host_permissions` list so the extension has permission to run on that site:
-```json
-"host_permissions": [
-  "*://*.reddit.com/*",
-  "*://*.facebook.com/*" // Add your new site here
-]
-```
-
-### 3. Add Custom Funny Descriptions (Optional)
-Open [quotes.js](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/quotes.js) and scroll to `funnyCustomizations`. You can define a customized message and emoji for your new website to nudge you dynamically:
-```javascript
-"facebook.com": {
-  icon: "👥",
-  title: "A classic distraction!",
-  subtitle: "Need to check updates from people you haven't seen in 10 years? Sure, do your moments of pause first."
-}
-```
-
-*Note: After making any edits, go back to `chrome://extensions/` and click the **Refresh (circular arrow)** button on the Nonsense Blocker card to apply the changes.*
-
+1. Open [rules.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/rules.json) and copy-paste an existing rule block. Give it a new `id` and change `urlFilter` to the site you want to block.
+2. Open [manifest.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/manifest.json) and add the domain to `host_permissions`.
+3. Add a custom roasting message to `funnyCustomizations` in [quotes.js](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/quotes.js) so you can get roasted dynamically.
+4. Click the **Refresh (circular arrow)** button on the extension card in `chrome://extensions/`.
