@@ -4,10 +4,12 @@
     "priority": 1,
     "action": {
       "type": "redirect",
-      "redirect": { "extensionPath": "/blocked.html?target=https://www.reddit.com/" }
+      "redirect": {
+        "regexSubstitution": "chrome-extension://__MSG_@@extension_id__/blocked.html?target=\\\\0"
+      }
     },
     "condition": {
-      "urlFilter": "||reddit.com",
+      "regexFilter": "^https?://([^/]*\\\\.)?reddit\\\\.com(:\\\\d+)?(/.*)?$",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -16,10 +18,12 @@
     "priority": 1,
     "action": {
       "type": "redirect",
-      "redirect": { "extensionPath": "/blocked.html?target=https://www.instagram.com/" }
+      "redirect": {
+        "regexSubstitution": "chrome-extension://__MSG_@@extension_id__/blocked.html?target=\\\\0"
+      }
     },
     "condition": {
-      "urlFilter": "||instagram.com",
+      "regexFilter": "^https?://([^/]*\\\\.)?instagram\\\\.com(:\\\\d+)?(/.*)?$",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -28,10 +32,12 @@
     "priority": 1,
     "action": {
       "type": "redirect",
-      "redirect": { "extensionPath": "/blocked.html?target=https://www.linkedin.com/" }
+      "redirect": {
+        "regexSubstitution": "chrome-extension://__MSG_@@extension_id__/blocked.html?target=\\\\0"
+      }
     },
     "condition": {
-      "urlFilter": "||linkedin.com",
+      "regexFilter": "^https?://([^/]*\\\\.)?linkedin\\\\.com(:\\\\d+)?(/.*)?$",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -40,10 +46,12 @@
     "priority": 1,
     "action": {
       "type": "redirect",
-      "redirect": { "extensionPath": "/blocked.html?target=https://www.tradingview.com/" }
+      "redirect": {
+        "regexSubstitution": "chrome-extension://__MSG_@@extension_id__/blocked.html?target=\\\\0"
+      }
     },
     "condition": {
-      "urlFilter": "||tradingview.com",
+      "regexFilter": "^https?://([^/]*\\\\.)?tradingview\\\\.com(:\\\\d+)?(/.*)?$",
       "resourceTypes": ["main_frame"]
     }
   },
@@ -52,10 +60,12 @@
     "priority": 1,
     "action": {
       "type": "redirect",
-      "redirect": { "extensionPath": "/blocked.html?target=https://www.pinterest.com/" }
+      "redirect": {
+        "regexSubstitution": "chrome-extension://__MSG_@@extension_id__/blocked.html?target=\\\\0"
+      }
     },
     "condition": {
-      "urlFilter": "||pinterest.com",
+      "regexFilter": "^https?://([^/]*\\\\.)?pinterest\\\\.com(:\\\\d+)?(/.*)?$",
       "resourceTypes": ["main_frame"]
     }
   },

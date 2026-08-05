@@ -358,7 +358,22 @@ selectedQuotes.forEach(quoteText => {
 
 proceedBtn.addEventListener("click", () => {
   if (collectedCount >= TOTAL_REQUIRED && targetUrl) {
-    const separator = targetUrl.includes('?') ? '&' : '?';
-    window.location.href = `${targetUrl}${separator}unblock=true`;
+    let domain = "";
+    try {
+      const urlObj = new URL(targetUrl);
+      domain = urlObj.hostname.replace("www.", "");
+    } catch (e) {
+      domain = targetUrl;
+    }
+
+    proceedBtn.innerText = "Unblocking...";
+    proceedBtn.setAttribute("disabled", "true");
+
+    chrome.runtime.sendMessage({ action: "unblock", domain: domain }, (response) => {
+      // Short delay to let the background service worker register the rule before loading
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 150);
+    });
   }
 });

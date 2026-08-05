@@ -4,8 +4,12 @@
   "version": "1",
   "description": "Blocks distracting websites locally.",
   "permissions": [
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "alarms"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "host_permissions": [
     "*://*.reddit.com/*",
     "*://*.instagram.com/*",
