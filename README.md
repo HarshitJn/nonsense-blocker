@@ -38,3 +38,53 @@ The extension is now installed and active!
 
 If you genuinely need to access a blocked site (e.g., for work or an important update), you can append `?unblock=true` to the URL. For example:
 - `https://www.linkedin.com/?unblock=true`
+
+---
+
+## How to Customize Blocked Websites (rules.json)
+
+You can easily add new websites to block or remove the existing ones by modifying two files:
+
+### 1. Update `rules.json`
+Open [rules.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/rules.json) and add a new rule object at the end of the array. Make sure to:
+- Give it a unique `id` number.
+- Replace `example.com` with the domain you want to block.
+- Point the redirect to `blocked.html?target=https://www.example.com/`.
+
+Example rule format:
+```json
+{
+  "id": 7,
+  "priority": 1,
+  "action": {
+    "type": "redirect",
+    "redirect": { "extensionPath": "/blocked.html?target=https://www.facebook.com/" }
+  },
+  "condition": {
+    "urlFilter": "||facebook.com",
+    "resourceTypes": ["main_frame"]
+  }
+}
+```
+
+### 2. Update `manifest.json`
+Open [manifest.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/manifest.json) and add the new domain to the `host_permissions` list so the extension has permission to run on that site:
+```json
+"host_permissions": [
+  "*://*.reddit.com/*",
+  "*://*.facebook.com/*" // Add your new site here
+]
+```
+
+### 3. Add Custom Funny Descriptions (Optional)
+Open [quotes.js](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/quotes.js) and scroll to `funnyCustomizations`. You can define a customized message and emoji for your new website to nudge you dynamically:
+```javascript
+"facebook.com": {
+  icon: "👥",
+  title: "A classic distraction!",
+  subtitle: "Need to check updates from people you haven't seen in 10 years? Sure, do your moments of pause first."
+}
+```
+
+*Note: After making any edits, go back to `chrome://extensions/` and click the **Refresh (circular arrow)** button on the Nonsense Blocker card to apply the changes.*
+

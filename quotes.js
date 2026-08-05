@@ -262,6 +262,61 @@ if (fullSearch.includes("?target=")) {
   targetUrl = fullSearch.substring(fullSearch.indexOf("?target=") + 8);
 }
 
+const funnyCustomizations = {
+  "instagram.com": {
+    icon: "📸",
+    title: "Seriously? Instagram again?",
+    subtitle: "Yeah, you can't resist watching that influencer today. Okay, go watch her/him, but first do your moments of pause."
+  },
+  "reddit.com": {
+    icon: "🤖",
+    title: "Welcome to the Reddit rabbit hole.",
+    subtitle: "Are you really going to read 500 comments on a topic you won't remember tomorrow? Fine, do it, but earn it first."
+  },
+  "linkedin.com": {
+    icon: "💼",
+    title: "Ah, corporate bragging!",
+    subtitle: "Need to check who got promoted or read some cringe hustle culture posts? Go ahead, but earn your dopamine hits first."
+  },
+  "tradingview.com": {
+    icon: "📈",
+    title: "Watching lines go up and down?",
+    subtitle: "Your portfolio won't grow just by staring at the charts. But if you must look at those candles, click these tiles."
+  },
+  "pinterest.com": {
+    icon: "📌",
+    title: "Inspiration overload?",
+    subtitle: "Planning a dream house you'll build 'someday'? Fine, pin away, but take a breath first."
+  }
+};
+
+if (targetUrl) {
+  try {
+    const urlObj = new URL(targetUrl);
+    const hostname = urlObj.hostname.toLowerCase();
+    
+    let matchedKey = null;
+    for (const key of Object.keys(funnyCustomizations)) {
+      if (hostname.includes(key)) {
+        matchedKey = key;
+        break;
+      }
+    }
+    
+    if (matchedKey) {
+      const config = funnyCustomizations[matchedKey];
+      document.getElementById("funny-icon").innerText = config.icon;
+      document.getElementById("funny-title").innerText = config.title;
+      document.getElementById("funny-subtitle").innerText = config.subtitle;
+    } else {
+      document.getElementById("funny-title").innerText = `Trying to access ${urlObj.hostname}?`;
+    }
+  } catch (e) {
+    // Fallback if URL parsing fails
+  }
+}
+
+
 function updateProceedButton() {
   if (collectedCount >= TOTAL_REQUIRED) {
     proceedBtn.classList.add("unlocked");
