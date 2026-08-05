@@ -47,7 +47,16 @@ Done. Go try opening Instagram.
 
 ## Want to block more nonsense?
 
-1. Open [rules.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/rules.json) and copy-paste an existing rule block. Give it a new `id` and change `urlFilter` to the site you want to block.
+1. Open [rules.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/rules.json) and copy-paste an existing rule block. Give it a new `id` and change `regexFilter` to match your target domain.
 2. Open [manifest.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/manifest.json) and add the domain to `host_permissions`.
 3. Add a custom roasting message to `funnyCustomizations` in [quotes.js](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/quotes.js) so you can get roasted dynamically.
 4. Click the **Refresh (circular arrow)** button on the extension card in `chrome://extensions/`.
+
+---
+
+## Running Tests
+
+To verify that your custom rules are valid JSON and that your regular expressions match correctly, run:
+```bash
+node test.js
+```
