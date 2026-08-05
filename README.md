@@ -12,6 +12,11 @@ You try to go to a distracting website. We block you and make you click a grid o
 | --- | --- |
 | ![Blocked Screen](images/screenshot_locked.png) | ![Unlocked Screen](images/screenshot_unlocked.png) |
 
+| Custom Instagram Roast | Custom TradingView Roast |
+| --- | --- |
+| ![Instagram Blocked](images/screenshot_instagram.png) | ![TradingView Blocked](images/screenshot_tradingview.png) |
+
+
 ### What We Block by Default
 * **Instagram** (influencer packing videos and mindless reels)
 * **Reddit** (pointless arguments with strangers)
