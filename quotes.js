@@ -240,7 +240,7 @@ function shuffle(array) {
 
 // ---------------------------------------------------------
 // SET YOUR GOAL HERE: Change this to 25 when you are done testing
-const TOTAL_REQUIRED = 2; 
+const TOTAL_REQUIRED = 25; 
 // ---------------------------------------------------------
 
 const selectedQuotes = shuffle([...quoteStrings]).slice(0, TOTAL_REQUIRED);
