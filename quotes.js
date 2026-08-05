@@ -265,28 +265,28 @@ if (fullSearch.includes("?target=")) {
 const funnyCustomizations = {
   "instagram.com": {
     icon: "📸",
-    title: "Seriously? Instagram again?",
-    subtitle: "Yeah, you can't resist watching that influencer today. Okay, go watch her/him, but first do your moments of pause."
+    title: "A wild influencer appeared!",
+    subtitle: "Yeah, you can't resist watching that aesthetic packing video or a random reel right now. Go watch it, but first click these tiles to prove you're not a dopamine zombie."
   },
   "reddit.com": {
     icon: "🤖",
-    title: "Welcome to the Reddit rabbit hole.",
-    subtitle: "Are you really going to read 500 comments on a topic you won't remember tomorrow? Fine, do it, but earn it first."
+    title: "Need to read 1,200 opinions on nothing?",
+    subtitle: "Going to argue with strangers about something that doesn't affect your life? Or read some juicy drama? Go ahead, but clear your mind of the nonsense first."
   },
   "linkedin.com": {
     icon: "💼",
-    title: "Ah, corporate bragging!",
-    subtitle: "Need to check who got promoted or read some cringe hustle culture posts? Go ahead, but earn your dopamine hits first."
+    title: "Warning: High Cringe Levels Ahead!",
+    subtitle: "Are you ready to see someone explain how a coffee cup taught them about B2B sales? If you must inhale the hustle cringe, unlock this button first."
   },
   "tradingview.com": {
     icon: "📈",
-    title: "Watching lines go up and down?",
-    subtitle: "Your portfolio won't grow just by staring at the charts. But if you must look at those candles, click these tiles."
+    title: "Staring at the candles again?",
+    subtitle: "Spoiler: The chart won't go green just because you're blinking at it. Prove you're a disciplined investor by completing your moments of pause."
   },
   "pinterest.com": {
     icon: "📌",
-    title: "Inspiration overload?",
-    subtitle: "Planning a dream house you'll build 'someday'? Fine, pin away, but take a breath first."
+    title: "Organizing your imaginary life?",
+    subtitle: "Aesthetic bedroom boards? DIY projects you'll never start? Fine, build your dream castle, but take a few seconds of absolute reality first."
   }
 };
 
