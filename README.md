@@ -40,13 +40,6 @@ Done. Go try opening Instagram.
 
 ---
 
-## NO, I want to watch that reel NOW! (Bypass)
-
-If you genuinely can't resist, append `?unblock=true` to the end of the URL:
-- `https://instagram.com/?unblock=true`
-
----
-
 ## Want to block more nonsense?
 
 1. Open [rules.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/rules.json) and copy-paste an existing rule block. Give it a new `id` and change `urlFilter` to the site you want to block.
