@@ -42,7 +42,7 @@ The extension is now installed and active!
 
 ---
 
-## How to Temporarily Bypass the Blocker
+## NO, I want to watch that reel NOW! (How to Temporarily Bypass)
 
 If you genuinely need to access a blocked site (e.g., for work or an important update), you can append `?unblock=true` to the URL. For example:
 - `https://www.linkedin.com/?unblock=true`

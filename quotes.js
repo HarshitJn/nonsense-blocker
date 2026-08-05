@@ -321,7 +321,7 @@ function updateProceedButton() {
   if (collectedCount >= TOTAL_REQUIRED) {
     proceedBtn.classList.add("unlocked");
     proceedBtn.removeAttribute("disabled");
-    proceedBtn.innerText = "Proceed to Website ➔";
+    proceedBtn.innerText = "NO, I want to watch that reel NOW! ➔";
   } else {
     proceedBtn.classList.remove("unlocked");
     proceedBtn.setAttribute("disabled", "true");
