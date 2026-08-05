@@ -1,13 +1,66 @@
-// Hash function to generate a unique, deterministic rule ID for any domain
+const BLOCKED_DOMAINS = [
+  "reddit.com",
+  "instagram.com",
+  "linkedin.com",
+  "tradingview.com",
+  "pinterest.com"
+];
+
+// Hash function to generate a unique, deterministic rule ID for any domain (for session bypass rules)
 function getRuleIdForDomain(domain) {
   let hash = 0;
   for (let i = 0; i < domain.length; i++) {
     hash = (hash << 5) - hash + domain.charCodeAt(i);
     hash |= 0; // Convert to 32bit integer
   }
-  // Ensure it's a positive integer between 100 and 1000000
-  return Math.abs(hash) % 999900 + 100;
+  // Ensure it's a positive integer between 100000 and 900000 (avoiding overlap with dynamic rules 1-100)
+  return Math.abs(hash) % 800000 + 100000;
 }
+
+// Function to generate and apply dynamic redirect rules
+function setupDynamicRules() {
+  const extensionId = chrome.runtime.id;
+  const redirectUrl = `chrome-extension://${extensionId}/blocked.html?target=\\0`;
+
+  const rules = BLOCKED_DOMAINS.map((domain, index) => {
+    return {
+      id: index + 1, // Dynamic rule IDs start at 1
+      priority: 1,
+      action: {
+        type: "redirect",
+        redirect: { regexSubstitution: redirectUrl }
+      },
+      condition: {
+        regexFilter: `^https?://([^/]*\\.)?${domain.replace(/\./g, "\\.")}([/:]|$)`,
+        resourceTypes: ["main_frame"]
+      }
+    };
+  });
+
+  chrome.declarativeNetRequest.getDynamicRules((existingRules) => {
+    const existingIds = existingRules.map(r => r.id);
+    chrome.declarativeNetRequest.updateDynamicRules({
+      removeRuleIds: existingIds,
+      addRules: rules
+    }, () => {
+      if (chrome.runtime.lastError) {
+        console.error("Failed to update dynamic rules:", chrome.runtime.lastError);
+      } else {
+        console.log("Successfully registered dynamic redirect rules.");
+      }
+    });
+  });
+}
+
+// Run on install / reload
+chrome.runtime.onInstalled.addListener(() => {
+  setupDynamicRules();
+});
+
+// Run on browser startup
+chrome.runtime.onStartup.addListener(() => {
+  setupDynamicRules();
+});
 
 // Listen for messages from the blocked page (quotes.js)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -21,7 +74,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     chrome.declarativeNetRequest.updateSessionRules({
       addRules: [{
         id: ruleId,
-        priority: 3, // Higher than static rules (1) and unblock=true rule (2)
+        priority: 3, // Higher than dynamic redirect rules (1)
         action: {
           type: "allow"
         },
@@ -61,7 +114,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       if (chrome.runtime.lastError) {
         console.error("Failed to remove session rule:", chrome.runtime.lastError);
       } else {
-        console.log(`Successfully removed session rule for ${domain}. Domain is blocked again.`);
+        console.log("Successfully removed session rule. Domain is blocked again.");
       }
     });
   }
