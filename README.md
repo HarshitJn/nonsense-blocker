@@ -6,6 +6,12 @@ Yeah social media is bad, screen time is ruinous, bla bla bla. Just use this too
 
 You try to go to a distracting website. We block you and make you click a grid of tiles (moments of pause) to reveal quotes before letting you through. By the time you finish clicking, you might actually remember you have a life.
 
+### Quick View
+
+| 1. Blocked (Need to click 25 tiles) | 2. Unlocked (Click the button to proceed) |
+| --- | --- |
+| ![Blocked Screen](images/screenshot_locked.png) | ![Unlocked Screen](images/screenshot_unlocked.png) |
+
 ### What We Block by Default
 * **Instagram** (influencer packing videos and mindless reels)
 * **Reddit** (pointless arguments with strangers)
