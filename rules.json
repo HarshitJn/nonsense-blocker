@@ -1,0 +1,73 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "extensionPath": "/blocked.html?target=https://www.reddit.com/" }
+    },
+    "condition": {
+      "urlFilter": "||reddit.com",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 2,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "extensionPath": "/blocked.html?target=https://www.instagram.com/" }
+    },
+    "condition": {
+      "urlFilter": "||instagram.com",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 3,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "extensionPath": "/blocked.html?target=https://www.linkedin.com/" }
+    },
+    "condition": {
+      "urlFilter": "||linkedin.com",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 4,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "extensionPath": "/blocked.html?target=https://www.tradingview.com/" }
+    },
+    "condition": {
+      "urlFilter": "||tradingview.com",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 5,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": { "extensionPath": "/blocked.html?target=https://www.pinterest.com/" }
+    },
+    "condition": {
+      "urlFilter": "||pinterest.com",
+      "resourceTypes": ["main_frame"]
+    }
+  },
+  {
+    "id": 6,
+    "priority": 2,
+    "action": {
+      "type": "allow"
+    },
+    "condition": {
+      "urlFilter": "unblock=true",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]

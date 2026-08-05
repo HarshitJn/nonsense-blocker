@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Nonsense Blocker",
+  "version": "1",
+  "description": "Blocks distracting websites locally.",
+  "permissions": [
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "*://*.reddit.com/*",
+    "*://*.instagram.com/*",
+    "*://*.linkedin.com/*",
+    "*://*.tradingview.com/*",
+    "*://*.pinterest.com/*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  }
+}
