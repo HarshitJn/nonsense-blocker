@@ -47,10 +47,12 @@ Done. Go try opening Instagram.
 
 ## Want to block more nonsense?
 
-1. Open [background.js](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/background.js) and add the domain name (e.g. `"facebook.com"`) to the `BLOCKED_DOMAINS` array at the top of the file.
-2. Open [manifest.json](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/manifest.json) and add the domain to `host_permissions` (e.g. `"*://*.facebook.com/*"`).
-3. Add a custom roasting message to `funnyCustomizations` in [quotes.js](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/quotes.js) so you can get roasted dynamically.
-4. Click the **Refresh (circular arrow)** button on the extension card in `chrome://extensions/`.
+You don't need to edit the code anymore! Just click on the extension icon in your Chrome toolbar to open the **Nonsense Blocker Dashboard**:
+- **Toggle Defaults**: Switch blocking on/off for standard distracting sites (Instagram and Reddit are blocked by default).
+- **Add Custom Sites**: Enter any domain (e.g., `facebook.com` or `youtube.com`) and click **+ Add**.
+- **Remove Sites**: Click the **×** button next to any custom domain to stop blocking it.
+
+*(Optional)*: If you add new domains, open [quotes.js](file:///Users/harshit/.gemini/antigravity/scratch/nonsense-blocker/quotes.js) and add a custom roasting message to the `funnyCustomizations` mapping to get roasted dynamically.
 
 ---
 

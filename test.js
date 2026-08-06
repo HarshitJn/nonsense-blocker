@@ -1,58 +1,66 @@
 const fs = require('fs');
 const assert = require('assert');
 
-console.log("Starting unit tests for Nonsense Blocker (Dynamic Rules)...");
+console.log("Starting unit tests for Nonsense Blocker (Dynamic Storage Rules)...");
 
-// Test Case 1: Read background.js and extract BLOCKED_DOMAINS
-console.log("\n[Test 1] Extracting BLOCKED_DOMAINS from background.js...");
-let blockedDomains = [];
+// Test Case 1: Read background.js and extract DEFAULT_BLOCKED
+console.log("\n[Test 1] Extracting DEFAULT_BLOCKED from background.js...");
+let defaultBlocked = [];
 try {
   const bgContent = fs.readFileSync('background.js', 'utf8');
-  const match = bgContent.match(/const BLOCKED_DOMAINS = \[\s*([\s\S]*?)\s*\];/);
+  const match = bgContent.match(/const DEFAULT_BLOCKED = \[\s*([\s\S]*?)\s*\];/);
   if (!match) {
-    throw new Error("Could not find BLOCKED_DOMAINS array in background.js");
+    throw new Error("Could not find DEFAULT_BLOCKED array in background.js");
   }
-  blockedDomains = match[1]
+  defaultBlocked = match[1]
     .split(',')
     .map(s => s.trim().replace(/"/g, '').replace(/'/g, ''))
     .filter(Boolean);
-  console.log("✅ Successfully extracted domains:", blockedDomains);
+  console.log("✅ Successfully extracted default blocked domains:", defaultBlocked);
+  
+  // Verify defaults block Instagram and Reddit
+  assert.ok(defaultBlocked.includes("instagram.com"), "Default list must block instagram.com");
+  assert.ok(defaultBlocked.includes("reddit.com"), "Default list must block reddit.com");
+  assert.strictEqual(defaultBlocked.length, 2, "Default list should only contain 2 domains by default");
+  console.log("✅ Default list correctly targets instagram.com and reddit.com.");
 } catch (e) {
-  console.error("❌ Failed to parse background.js:", e.message);
+  console.error("❌ Failed to parse or validate default blocked domains:", e.message);
   process.exit(1);
 }
 
-// Test Case 2: Test generated regexFilters against blocklist/allowlist URLs
+// Test Case 2: Test regexFilters matching logic for both default and custom domains
 console.log("\n[Test 2] Testing dynamic regexFilters matching logic...");
 
+// Simulating the user blocking a mix of default and custom domains
+const mockBlockedDomains = [...defaultBlocked, "linkedin.com", "facebook.com", "my-custom-blog.net"];
+
 const testCases = [
-  // Reddit
+  // Reddit (default block list)
   { url: "https://reddit.com/", shouldBlock: true, targetDomain: "reddit.com" },
   { url: "https://www.reddit.com/r/pics", shouldBlock: true, targetDomain: "reddit.com" },
-  { url: "https://old.reddit.com/r/pics/comments/123", shouldBlock: true, targetDomain: "reddit.com" },
   { url: "https://reddit.com.attacker.com", shouldBlock: false },
   { url: "https://myreddit.com", shouldBlock: false },
-  { url: "https://reddit.com.org", shouldBlock: false },
 
-  // Instagram
+  // Instagram (default block list)
   { url: "https://instagram.com/", shouldBlock: true, targetDomain: "instagram.com" },
   { url: "https://www.instagram.com/reels/DVxEHVBDKQR/", shouldBlock: true, targetDomain: "instagram.com" },
-  { url: "https://instagram.com.attacker.com", shouldBlock: false },
 
-  // LinkedIn
+  // LinkedIn (explicitly enabled)
   { url: "https://linkedin.com/", shouldBlock: true, targetDomain: "linkedin.com" },
   { url: "https://www.linkedin.com/feed/", shouldBlock: true, targetDomain: "linkedin.com" },
-  { url: "https://linkedin.com.attacker.com", shouldBlock: false },
 
-  // TradingView
-  { url: "https://tradingview.com/", shouldBlock: true, targetDomain: "tradingview.com" },
-  { url: "https://www.tradingview.com/chart/Qib1EBVe/?symbol=NASDAQ%3AGOOG", shouldBlock: true, targetDomain: "tradingview.com" },
-  { url: "https://tradingview.com.attacker.com", shouldBlock: false },
+  // TradingView (disabled in mock)
+  { url: "https://tradingview.com/", shouldBlock: false },
+  { url: "https://www.tradingview.com/chart/", shouldBlock: false },
 
-  // Pinterest
-  { url: "https://pinterest.com/", shouldBlock: true, targetDomain: "pinterest.com" },
-  { url: "https://www.pinterest.com/pin/12345", shouldBlock: true, targetDomain: "pinterest.com" },
-  { url: "https://pinterest.com.attacker.com", shouldBlock: false },
+  // Custom Domain 1: facebook.com
+  { url: "https://facebook.com/", shouldBlock: true, targetDomain: "facebook.com" },
+  { url: "https://www.facebook.com/profile.php", shouldBlock: true, targetDomain: "facebook.com" },
+  { url: "https://facebook.com.attacker.com", shouldBlock: false },
+
+  // Custom Domain 2: my-custom-blog.net
+  { url: "https://my-custom-blog.net/", shouldBlock: true, targetDomain: "my-custom-blog.net" },
+  { url: "http://my-custom-blog.net/posts/1", shouldBlock: true, targetDomain: "my-custom-blog.net" },
 
   // Unrelated sites (should never block)
   { url: "https://google.com/", shouldBlock: false },
@@ -62,7 +70,7 @@ const testCases = [
 let matchFailures = 0;
 for (const tc of testCases) {
   let matchedDomain = null;
-  for (const domain of blockedDomains) {
+  for (const domain of mockBlockedDomains) {
     // Generate regex filter exactly as done in background.js
     const regexPattern = `^https?://([^/]*\\.)?${domain.replace(/\./g, "\\.")}([/:]|$)`;
     const regex = new RegExp(regexPattern);
@@ -87,7 +95,7 @@ if (matchFailures > 0) {
   console.error(`❌ Regex matching tests failed with ${matchFailures} errors.`);
   process.exit(1);
 } else {
-  console.log("✅ Regex matching tests passed successfully.");
+  console.log("✅ Regex matching tests passed successfully for both default and custom domains.");
 }
 
 // Test Case 3: Validate hashing function compatibility

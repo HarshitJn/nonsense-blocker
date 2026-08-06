@@ -1,10 +1,5 @@
-const BLOCKED_DOMAINS = [
-  "reddit.com",
-  "instagram.com",
-  "linkedin.com",
-  "tradingview.com",
-  "pinterest.com"
-];
+// Default suspects list to populate if storage is empty
+const DEFAULT_BLOCKED = ["instagram.com", "reddit.com"];
 
 // Hash function to generate a unique, deterministic rule ID for any domain (for session bypass rules)
 function getRuleIdForDomain(domain) {
@@ -17,49 +12,74 @@ function getRuleIdForDomain(domain) {
   return Math.abs(hash) % 800000 + 100000;
 }
 
-// Function to generate and apply dynamic redirect rules
+// Function to generate and apply dynamic redirect rules based on storage state
 function setupDynamicRules() {
-  const extensionId = chrome.runtime.id;
-  const redirectUrl = `chrome-extension://${extensionId}/blocked.html?target=\\0`;
+  chrome.storage.local.get({ blockedDomains: DEFAULT_BLOCKED }, (result) => {
+    const activeDomains = result.blockedDomains;
+    const extensionId = chrome.runtime.id;
+    const redirectUrl = `chrome-extension://${extensionId}/blocked.html?target=\\0`;
 
-  const rules = BLOCKED_DOMAINS.map((domain, index) => {
-    return {
-      id: index + 1, // Dynamic rule IDs start at 1
-      priority: 1,
-      action: {
-        type: "redirect",
-        redirect: { regexSubstitution: redirectUrl }
-      },
-      condition: {
-        regexFilter: `^https?://([^/]*\\.)?${domain.replace(/\./g, "\\.")}([/:]|$)`,
-        resourceTypes: ["main_frame"]
-      }
-    };
-  });
+    const rules = activeDomains.map((domain, index) => {
+      return {
+        id: index + 1, // Dynamic rule IDs start at 1
+        priority: 1,
+        action: {
+          type: "redirect",
+          redirect: { regexSubstitution: redirectUrl }
+        },
+        condition: {
+          regexFilter: `^https?://([^/]*\\.)?${domain.replace(/\./g, "\\.")}([/:]|$)`,
+          resourceTypes: ["main_frame"]
+        }
+      };
+    });
 
-  chrome.declarativeNetRequest.getDynamicRules((existingRules) => {
-    const existingIds = existingRules.map(r => r.id);
-    chrome.declarativeNetRequest.updateDynamicRules({
-      removeRuleIds: existingIds,
-      addRules: rules
-    }, () => {
-      if (chrome.runtime.lastError) {
-        console.error("Failed to update dynamic rules:", chrome.runtime.lastError);
-      } else {
-        console.log("Successfully registered dynamic redirect rules.");
+    chrome.declarativeNetRequest.getDynamicRules((existingRules) => {
+      const existingIds = existingRules.map(r => r.id);
+      
+      const updatePayload = {
+        removeRuleIds: existingIds
+      };
+
+      if (rules.length > 0) {
+        updatePayload.addRules = rules;
       }
+
+      chrome.declarativeNetRequest.updateDynamicRules(updatePayload, () => {
+        if (chrome.runtime.lastError) {
+          console.error("Failed to update dynamic rules:", chrome.runtime.lastError);
+        } else {
+          console.log(`Successfully registered dynamic redirect rules for: ${activeDomains.join(', ')}`);
+        }
+      });
     });
   });
 }
 
 // Run on install / reload
 chrome.runtime.onInstalled.addListener(() => {
-  setupDynamicRules();
+  // Initialize default storage values if not set
+  chrome.storage.local.get("blockedDomains", (result) => {
+    if (!result.blockedDomains) {
+      chrome.storage.local.set({ blockedDomains: DEFAULT_BLOCKED }, () => {
+        setupDynamicRules();
+      });
+    } else {
+      setupDynamicRules();
+    }
+  });
 });
 
 // Run on browser startup
 chrome.runtime.onStartup.addListener(() => {
   setupDynamicRules();
+});
+
+// Listen for storage updates to dynamically sync DNR rules
+chrome.storage.onChanged.addListener((changes, areaName) => {
+  if (areaName === "local" && changes.blockedDomains) {
+    setupDynamicRules();
+  }
 });
 
 // Listen for messages from the blocked page (quotes.js)

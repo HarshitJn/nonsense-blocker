@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nonsense Blocker Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 1.25rem;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f8fafc;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+      background: linear-gradient(135deg, #43cea2, #a7f3d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 0.25rem;
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #43cea2;
+      margin-top: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Suspects list style */
+    .suspect-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.65rem 0.85rem;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .suspect-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .suspect-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .suspect-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Switch toggle button */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #94a3b8;
+      transition: .3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+      border-color: transparent;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(18px);
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Custom Adder Styling */
+    .custom-adder {
+      display: flex;
+      gap: 8px;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .custom-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.6rem 0.8rem;
+      border-radius: 10px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .custom-input:focus {
+      border-color: #43cea2;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 10px rgba(67, 206, 162, 0.2);
+    }
+
+    .add-btn {
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+      border: none;
+      color: white;
+      padding: 0 1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(67, 206, 162, 0.3);
+    }
+
+    /* Custom domains list */
+    .custom-list {
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      padding-right: 2px;
+    }
+
+    .custom-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .custom-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 2px;
+    }
+
+    .custom-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .delete-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
+      transform: scale(1.15);
+    }
+
+    /* Empty state */
+    .empty-state {
+      font-size: 0.8rem;
+      color: #64748b;
+      text-align: center;
+      padding: 1rem;
+      font-style: italic;
+    }
+
+    /* Footer styling */
+    .footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>🤔 Nonsense Blocker</h1>
+      <p class="subtitle">Take back control of your attention</p>
+    </div>
+  </div>
+
+  <div class="section-title">Default Targets</div>
+  
+  <div class="suspect-item">
+    <div class="suspect-info">
+      <span class="suspect-icon">📸</span>
+      <span>Instagram</span>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-instagram">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="suspect-item">
+    <div class="suspect-info">
+      <span class="suspect-icon">🤖</span>
+      <span>Reddit</span>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-reddit">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="suspect-item">
+    <div class="suspect-info">
+      <span class="suspect-icon">💼</span>
+      <span>LinkedIn</span>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-linkedin">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="suspect-item">
+    <div class="suspect-info">
+      <span class="suspect-icon">📈</span>
+      <span>TradingView</span>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-tradingview">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="suspect-item">
+    <div class="suspect-info">
+      <span class="suspect-icon">📌</span>
+      <span>Pinterest</span>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle-pinterest">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="section-title">Custom Domains</div>
+  
+  <div class="custom-adder">
+    <input type="text" id="custom-domain-input" class="custom-input" placeholder="e.g. facebook.com" autocomplete="off">
+    <button id="add-custom-btn" class="add-btn">+ Add</button>
+  </div>
+
+  <div id="custom-domains-list" class="custom-list">
+    <!-- Dynmically filled custom sites -->
+  </div>
+
+  <div class="footer">
+    Settings automatically save and sync
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
