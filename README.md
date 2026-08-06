@@ -16,6 +16,10 @@ You try to go to a distracting website. We block you and make you click a grid o
 | --- | --- |
 | ![Instagram Blocked](images/screenshot_instagram.png) | ![TradingView Blocked](images/screenshot_tradingview.png) |
 
+| Blocker Dashboard (Configure settings) |
+| --- |
+| ![Blocker Dashboard](images/screenshot_dashboard.png) |
+
 
 ### What We Block by Default
 * **Instagram** (influencer packing videos and mindless reels)
