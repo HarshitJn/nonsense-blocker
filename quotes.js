@@ -290,13 +290,13 @@ const funnyCustomizations = {
   },
   "x.com": {
     icon: "💸",
-    title: "Staring at the echo chamber again?",
-    subtitle: "Inhaling nonsense financial news and making either 0 decisions or bad decisions? Stop trying to fill the empty time by pretending to connect with what's happening. Go build something real instead."
+    title: "Let me guess: 'Researching' finance?",
+    subtitle: "Reading 50 tweets about interest rates won't make you rich—it just lures you into making zero decisions or bad decisions. You are just filling empty time because you're bored. Go build something real."
   },
   "twitter.com": {
     icon: "🐦",
-    title: "Staring at the echo chamber again?",
-    subtitle: "Inhaling nonsense financial news and making either 0 decisions or bad decisions? Stop trying to fill the empty time by pretending to connect with what's happening. Go build something real instead."
+    title: "Let me guess: 'Researching' finance?",
+    subtitle: "Reading 50 tweets about interest rates won't make you rich—it just lures you into making zero decisions or bad decisions. You are just filling empty time because you're bored. Go build something real."
   }
 };
 
