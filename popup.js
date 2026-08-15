@@ -1,6 +1,8 @@
 const DEFAULT_SUSPECTS = {
   "instagram.com": "toggle-instagram",
   "reddit.com": "toggle-reddit",
+  "x.com": "toggle-x",
+  "twitter.com": "toggle-x",
   "linkedin.com": "toggle-linkedin",
   "tradingview.com": "toggle-tradingview",
   "pinterest.com": "toggle-pinterest"

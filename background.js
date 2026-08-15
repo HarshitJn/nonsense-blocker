@@ -1,5 +1,4 @@
-// Default suspects list to populate if storage is empty
-const DEFAULT_BLOCKED = ["instagram.com", "reddit.com"];
+const DEFAULT_BLOCKED = ["instagram.com", "reddit.com", "x.com", "twitter.com"];
 
 // Hash function to generate a unique, deterministic rule ID for any domain (for session bypass rules)
 function getRuleIdForDomain(domain) {

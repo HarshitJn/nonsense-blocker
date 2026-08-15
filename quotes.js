@@ -287,6 +287,16 @@ const funnyCustomizations = {
     icon: "📌",
     title: "Organizing your imaginary life?",
     subtitle: "Aesthetic bedroom boards? DIY projects you'll never start? Fine, build your dream castle, but take a few seconds of absolute reality first."
+  },
+  "x.com": {
+    icon: "💸",
+    title: "Staring at the echo chamber again?",
+    subtitle: "Inhaling nonsense financial news and making either 0 decisions or bad decisions? Stop trying to fill the empty time by pretending to connect with what's happening. Go build something real instead."
+  },
+  "twitter.com": {
+    icon: "🐦",
+    title: "Staring at the echo chamber again?",
+    subtitle: "Inhaling nonsense financial news and making either 0 decisions or bad decisions? Stop trying to fill the empty time by pretending to connect with what's happening. Go build something real instead."
   }
 };
 

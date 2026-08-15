@@ -18,11 +18,13 @@ try {
     .filter(Boolean);
   console.log("✅ Successfully extracted default blocked domains:", defaultBlocked);
   
-  // Verify defaults block Instagram and Reddit
+  // Verify defaults block Instagram, Reddit, x.com, and twitter.com
   assert.ok(defaultBlocked.includes("instagram.com"), "Default list must block instagram.com");
   assert.ok(defaultBlocked.includes("reddit.com"), "Default list must block reddit.com");
-  assert.strictEqual(defaultBlocked.length, 2, "Default list should only contain 2 domains by default");
-  console.log("✅ Default list correctly targets instagram.com and reddit.com.");
+  assert.ok(defaultBlocked.includes("x.com"), "Default list must block x.com");
+  assert.ok(defaultBlocked.includes("twitter.com"), "Default list must block twitter.com");
+  assert.strictEqual(defaultBlocked.length, 4, "Default list should contain 4 domains by default");
+  console.log("✅ Default list correctly targets instagram.com, reddit.com, x.com, and twitter.com.");
 } catch (e) {
   console.error("❌ Failed to parse or validate default blocked domains:", e.message);
   process.exit(1);
@@ -44,6 +46,12 @@ const testCases = [
   // Instagram (default block list)
   { url: "https://instagram.com/", shouldBlock: true, targetDomain: "instagram.com" },
   { url: "https://www.instagram.com/reels/DVxEHVBDKQR/", shouldBlock: true, targetDomain: "instagram.com" },
+
+  // Twitter / X (default block list)
+  { url: "https://x.com/", shouldBlock: true, targetDomain: "x.com" },
+  { url: "https://twitter.com/home", shouldBlock: true, targetDomain: "twitter.com" },
+  { url: "https://x.com.attacker.com", shouldBlock: false },
+  { url: "https://twitter.com.attacker.com", shouldBlock: false },
 
   // LinkedIn (explicitly enabled)
   { url: "https://linkedin.com/", shouldBlock: true, targetDomain: "linkedin.com" },
