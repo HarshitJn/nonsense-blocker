@@ -83,34 +83,60 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 // Listen for messages from the blocked page (quotes.js)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "unblock" && message.domain) {
+  if (message.action === "unblock" && message.domain && sender.tab && sender.tab.id) {
     const domain = message.domain;
-    const ruleId = getRuleIdForDomain(domain);
+    const tabId = sender.tab.id;
 
-    console.log(`Unblocking domain: ${domain} (Rule ID: ${ruleId}) for 10 minutes`);
+    // Handle cross-domain unblocking for x.com and twitter.com (they redirect to each other)
+    const domainsToUnblock = [];
+    if (domain === "x.com" || domain === "twitter.com") {
+      domainsToUnblock.push("x.com", "twitter.com");
+    } else {
+      domainsToUnblock.push(domain);
+    }
 
-    // Add session rule to allow this domain (overriding redirect rules)
-    chrome.declarativeNetRequest.updateSessionRules({
-      addRules: [{
+    const rulesToAdd = domainsToUnblock.map(dom => {
+      const ruleId = getRuleIdForDomain(dom);
+      return {
         id: ruleId,
         priority: 3, // Higher than dynamic redirect rules (1)
         action: {
           type: "allow"
         },
         condition: {
-          urlFilter: `||${domain}`,
+          urlFilter: `||${dom}`,
+          tabIds: [tabId],
           resourceTypes: ["main_frame"]
         }
-      }],
-      removeRuleIds: [ruleId] // Clear existing rule with same ID first
+      };
+    });
+
+    const ruleIdsToRemove = domainsToUnblock.map(dom => getRuleIdForDomain(dom));
+
+    console.log(`Unblocking domains: ${domainsToUnblock.join(", ")} on tab ${tabId} for 15 seconds`);
+
+    // Add session rules to allow this domain (restricted to the requesting tab)
+    chrome.declarativeNetRequest.updateSessionRules({
+      addRules: rulesToAdd,
+      removeRuleIds: ruleIdsToRemove // Clear existing rules first
     }, () => {
       if (chrome.runtime.lastError) {
-        console.error("Failed to add session rule:", chrome.runtime.lastError);
+        console.error("Failed to add session rules:", chrome.runtime.lastError);
       } else {
-        console.log(`Successfully added session rule for ${domain}`);
+        console.log(`Successfully added session rules for ${domainsToUnblock.join(", ")} on tab ${tabId}`);
         
-        // Schedule alarm to re-block after 10 minutes
-        chrome.alarms.create(`block-${domain}`, { delayInMinutes: 10 });
+        // Remove the session rules after 15 seconds so any future navigation/refresh blocks the site again
+        setTimeout(() => {
+          chrome.declarativeNetRequest.updateSessionRules({
+            removeRuleIds: ruleIdsToRemove
+          }, () => {
+            if (chrome.runtime.lastError) {
+              console.error("Failed to remove session rules:", chrome.runtime.lastError);
+            } else {
+              console.log(`Bypass time elapsed. Re-blocked domains: ${domainsToUnblock.join(", ")} on tab ${tabId}`);
+            }
+          });
+        }, 15000);
       }
       sendResponse({ success: true });
     });
@@ -119,22 +145,3 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// Listen for alarms to re-block domains
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name.startsWith("block-")) {
-    const domain = alarm.name.substring(6);
-    const ruleId = getRuleIdForDomain(domain);
-
-    console.log(`Time is up! Re-blocking domain: ${domain} (Removing Rule ID: ${ruleId})`);
-
-    chrome.declarativeNetRequest.updateSessionRules({
-      removeRuleIds: [ruleId]
-    }, () => {
-      if (chrome.runtime.lastError) {
-        console.error("Failed to remove session rule:", chrome.runtime.lastError);
-      } else {
-        console.log("Successfully removed session rule. Domain is blocked again.");
-      }
-    });
-  }
-});

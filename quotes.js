@@ -291,12 +291,12 @@ const funnyCustomizations = {
   "x.com": {
     icon: "💸",
     title: "Let me guess: 'Researching' finance?",
-    subtitle: "Reading 50 tweets about interest rates won't make you rich—it just lures you into making zero decisions or bad decisions. You are just filling empty time because you're bored. Go build something real."
+    subtitle: "Reading 50 tweets on latest AI stock prices won't make you rich—it just lures you into making bad decisions. You are just filling empty time because you're bored. Go build something real."
   },
   "twitter.com": {
     icon: "🐦",
     title: "Let me guess: 'Researching' finance?",
-    subtitle: "Reading 50 tweets about interest rates won't make you rich—it just lures you into making zero decisions or bad decisions. You are just filling empty time because you're bored. Go build something real."
+    subtitle: "Reading 50 tweets on latest AI stock prices won't make you rich—it just lures you into making bad decisions. You are just filling empty time because you're bored. Go build something real."
   }
 };
 
