@@ -57,14 +57,30 @@ function setupDynamicRules() {
 
 // Run on install / reload
 chrome.runtime.onInstalled.addListener(() => {
-  // Initialize default storage values if not set
   chrome.storage.local.get("blockedDomains", (result) => {
-    if (!result.blockedDomains) {
+    let activeBlocked = result.blockedDomains;
+    if (!activeBlocked) {
+      // Clean installation
       chrome.storage.local.set({ blockedDomains: DEFAULT_BLOCKED }, () => {
         setupDynamicRules();
       });
     } else {
-      setupDynamicRules();
+      // Migration: Ensure new defaults (like x.com/twitter.com) are added to existing users' storage
+      let migrated = false;
+      DEFAULT_BLOCKED.forEach(domain => {
+        if (!activeBlocked.includes(domain)) {
+          activeBlocked.push(domain);
+          migrated = true;
+        }
+      });
+
+      if (migrated) {
+        chrome.storage.local.set({ blockedDomains: activeBlocked }, () => {
+          setupDynamicRules();
+        });
+      } else {
+        setupDynamicRules();
+      }
     }
   });
 });
