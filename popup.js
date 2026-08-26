@@ -86,20 +86,83 @@ function initializeUI() {
     for (const [domain, elementId] of Object.entries(DEFAULT_SUSPECTS)) {
       const checkbox = document.getElementById(elementId);
       if (checkbox) {
+        // A switch is checked if either mapped domain is in the active blocklist
         checkbox.checked = activeBlockedDomains.includes(domain);
-        
-        // Add change listener to save checkboxes dynamically
-        checkbox.addEventListener("change", () => {
-          if (checkbox.checked) {
-            if (!activeBlockedDomains.includes(domain)) {
-              activeBlockedDomains.push(domain);
-            }
-          } else {
-            activeBlockedDomains = activeBlockedDomains.filter(d => d !== domain);
-          }
-          saveToStorage();
-        });
       }
+    }
+
+    // Add change listeners to each checkbox switch
+    const instagramCheckbox = document.getElementById("toggle-instagram");
+    if (instagramCheckbox) {
+      instagramCheckbox.addEventListener("change", () => {
+        if (instagramCheckbox.checked) {
+          if (!activeBlockedDomains.includes("instagram.com")) activeBlockedDomains.push("instagram.com");
+        } else {
+          activeBlockedDomains = activeBlockedDomains.filter(d => d !== "instagram.com");
+        }
+        saveToStorage();
+      });
+    }
+
+    const redditCheckbox = document.getElementById("toggle-reddit");
+    if (redditCheckbox) {
+      redditCheckbox.addEventListener("change", () => {
+        if (redditCheckbox.checked) {
+          if (!activeBlockedDomains.includes("reddit.com")) activeBlockedDomains.push("reddit.com");
+        } else {
+          activeBlockedDomains = activeBlockedDomains.filter(d => d !== "reddit.com");
+        }
+        saveToStorage();
+      });
+    }
+
+    const xCheckbox = document.getElementById("toggle-x");
+    if (xCheckbox) {
+      xCheckbox.addEventListener("change", () => {
+        if (xCheckbox.checked) {
+          if (!activeBlockedDomains.includes("x.com")) activeBlockedDomains.push("x.com");
+          if (!activeBlockedDomains.includes("twitter.com")) activeBlockedDomains.push("twitter.com");
+        } else {
+          activeBlockedDomains = activeBlockedDomains.filter(d => d !== "x.com" && d !== "twitter.com");
+        }
+        saveToStorage();
+      });
+    }
+
+    const linkedinCheckbox = document.getElementById("toggle-linkedin");
+    if (linkedinCheckbox) {
+      linkedinCheckbox.addEventListener("change", () => {
+        if (linkedinCheckbox.checked) {
+          if (!activeBlockedDomains.includes("linkedin.com")) activeBlockedDomains.push("linkedin.com");
+        } else {
+          activeBlockedDomains = activeBlockedDomains.filter(d => d !== "linkedin.com");
+        }
+        saveToStorage();
+      });
+    }
+
+    const tradingviewCheckbox = document.getElementById("toggle-tradingview");
+    if (tradingviewCheckbox) {
+      tradingviewCheckbox.addEventListener("change", () => {
+        if (tradingviewCheckbox.checked) {
+          if (!activeBlockedDomains.includes("tradingview.com")) activeBlockedDomains.push("tradingview.com");
+        } else {
+          activeBlockedDomains = activeBlockedDomains.filter(d => d !== "tradingview.com");
+        }
+        saveToStorage();
+      });
+    }
+
+    const pinterestCheckbox = document.getElementById("toggle-pinterest");
+    if (pinterestCheckbox) {
+      pinterestCheckbox.addEventListener("change", () => {
+        if (pinterestCheckbox.checked) {
+          if (!activeBlockedDomains.includes("pinterest.com")) activeBlockedDomains.push("pinterest.com");
+        } else {
+          activeBlockedDomains = activeBlockedDomains.filter(d => d !== "pinterest.com");
+        }
+        saveToStorage();
+      });
     }
 
     renderCustomList();
