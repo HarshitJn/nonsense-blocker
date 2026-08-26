@@ -55,8 +55,27 @@ function setupDynamicRules() {
   });
 }
 
+// Helper to clear any persisted session rules (to ensure clean slate on restart/reload)
+function clearAllSessionRules() {
+  chrome.declarativeNetRequest.getSessionRules((rules) => {
+    const ids = rules.map(r => r.id);
+    if (ids.length > 0) {
+      chrome.declarativeNetRequest.updateSessionRules({
+        removeRuleIds: ids
+      }, () => {
+        if (chrome.runtime.lastError) {
+          console.error("Failed to clear session rules:", chrome.runtime.lastError);
+        } else {
+          console.log("Successfully cleared stale session rules.");
+        }
+      });
+    }
+  });
+}
+
 // Run on install / reload
 chrome.runtime.onInstalled.addListener(() => {
+  clearAllSessionRules();
   chrome.storage.local.get("blockedDomains", (result) => {
     let activeBlocked = result.blockedDomains;
     if (!activeBlocked) {
@@ -87,6 +106,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 // Run on browser startup
 chrome.runtime.onStartup.addListener(() => {
+  clearAllSessionRules();
   setupDynamicRules();
 });
 

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Nonsense Blocker",
+  "name": "Nonsense Blocker - No Scroll!",
   "version": "1",
   "description": "Blocks distracting websites locally.",
   "permissions": [
