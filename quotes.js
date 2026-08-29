@@ -301,12 +301,12 @@ const funnyCustomizations = {
   "youtube.com": {
     icon: "📺",
     title: "Ready for another 'essential' video essay?",
-    subtitle: "Watching random opinions packaged in highly-produced, intellectual-looking videos? Spoiler: watching a 2-hour analysis of a movie you'll never see is just trashy entertainment in disguise. You are just filling empty time because you're bored. Go build something real."
+    subtitle: "Watching random opinions packaged in highly-produced, intellectual-looking videos? Spoiler: watching a 2-hour analysis of a movie you'll never see, or watching 15 videos of tech desk setups, productivity hacks you'll never use, and software engineers eating free lunches is just trashy entertainment in disguise. You are just filling empty time because you're bored. Go build something real."
   },
   "youtu.be": {
     icon: "📺",
     title: "Ready for another 'essential' video essay?",
-    subtitle: "Watching random opinions packaged in highly-produced, intellectual-looking videos? Spoiler: watching a 2-hour analysis of a movie you'll never see is just trashy entertainment in disguise. You are just filling empty time because you're bored. Go build something real."
+    subtitle: "Watching random opinions packaged in highly-produced, intellectual-looking videos? Spoiler: watching a 2-hour analysis of a movie you'll never see, or watching 15 videos of tech desk setups, productivity hacks you'll never use, and software engineers eating free lunches is just trashy entertainment in disguise. You are just filling empty time because you're bored. Go build something real."
   }
 };
 
