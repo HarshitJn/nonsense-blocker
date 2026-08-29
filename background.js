@@ -1,4 +1,4 @@
-const DEFAULT_BLOCKED = ["instagram.com", "reddit.com", "x.com", "twitter.com"];
+const DEFAULT_BLOCKED = ["instagram.com", "reddit.com", "x.com", "twitter.com", "youtube.com", "youtu.be"];
 
 // Hash function to generate a unique, deterministic rule ID for any domain (for session bypass rules)
 function getRuleIdForDomain(domain) {

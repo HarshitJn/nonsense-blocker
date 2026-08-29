@@ -18,13 +18,15 @@ try {
     .filter(Boolean);
   console.log("✅ Successfully extracted default blocked domains:", defaultBlocked);
   
-  // Verify defaults block Instagram, Reddit, x.com, and twitter.com
+  // Verify defaults block Instagram, Reddit, x.com, twitter.com, youtube.com, and youtu.be
   assert.ok(defaultBlocked.includes("instagram.com"), "Default list must block instagram.com");
   assert.ok(defaultBlocked.includes("reddit.com"), "Default list must block reddit.com");
   assert.ok(defaultBlocked.includes("x.com"), "Default list must block x.com");
   assert.ok(defaultBlocked.includes("twitter.com"), "Default list must block twitter.com");
-  assert.strictEqual(defaultBlocked.length, 4, "Default list should contain 4 domains by default");
-  console.log("✅ Default list correctly targets instagram.com, reddit.com, x.com, and twitter.com.");
+  assert.ok(defaultBlocked.includes("youtube.com"), "Default list must block youtube.com");
+  assert.ok(defaultBlocked.includes("youtu.be"), "Default list must block youtu.be");
+  assert.strictEqual(defaultBlocked.length, 6, "Default list should contain 6 domains by default");
+  console.log("✅ Default list correctly targets instagram.com, reddit.com, x.com, twitter.com, youtube.com, and youtu.be.");
 } catch (e) {
   console.error("❌ Failed to parse or validate default blocked domains:", e.message);
   process.exit(1);
@@ -52,6 +54,13 @@ const testCases = [
   { url: "https://twitter.com/home", shouldBlock: true, targetDomain: "twitter.com" },
   { url: "https://x.com.attacker.com", shouldBlock: false },
   { url: "https://twitter.com.attacker.com", shouldBlock: false },
+
+  // YouTube (default block list)
+  { url: "https://youtube.com/", shouldBlock: true, targetDomain: "youtube.com" },
+  { url: "https://www.youtube.com/watch?v=123", shouldBlock: true, targetDomain: "youtube.com" },
+  { url: "https://youtu.be/abc", shouldBlock: true, targetDomain: "youtu.be" },
+  { url: "https://youtube.com.attacker.com", shouldBlock: false },
+  { url: "https://youtu.be.attacker.com", shouldBlock: false },
 
   // LinkedIn (explicitly enabled)
   { url: "https://linkedin.com/", shouldBlock: true, targetDomain: "linkedin.com" },

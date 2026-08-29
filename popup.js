@@ -3,6 +3,8 @@ const DEFAULT_SUSPECTS = {
   "reddit.com": "toggle-reddit",
   "x.com": "toggle-x",
   "twitter.com": "toggle-x",
+  "youtube.com": "toggle-youtube",
+  "youtu.be": "toggle-youtube",
   "linkedin.com": "toggle-linkedin",
   "tradingview.com": "toggle-tradingview",
   "pinterest.com": "toggle-pinterest"
@@ -78,8 +80,8 @@ function removeDomain(domain) {
 
 // Initialize interface from storage
 function initializeUI() {
-  // Default to Instagram and Reddit enabled if storage is not set yet
-  chrome.storage.local.get({ blockedDomains: ["instagram.com", "reddit.com"] }, (result) => {
+  // Default to new list if storage is not set yet
+  chrome.storage.local.get({ blockedDomains: ["instagram.com", "reddit.com", "x.com", "twitter.com", "youtube.com", "youtu.be"] }, (result) => {
     activeBlockedDomains = result.blockedDomains;
 
     // Set checkboxes for default suspects
@@ -124,6 +126,19 @@ function initializeUI() {
           if (!activeBlockedDomains.includes("twitter.com")) activeBlockedDomains.push("twitter.com");
         } else {
           activeBlockedDomains = activeBlockedDomains.filter(d => d !== "x.com" && d !== "twitter.com");
+        }
+        saveToStorage();
+      });
+    }
+
+    const youtubeCheckbox = document.getElementById("toggle-youtube");
+    if (youtubeCheckbox) {
+      youtubeCheckbox.addEventListener("change", () => {
+        if (youtubeCheckbox.checked) {
+          if (!activeBlockedDomains.includes("youtube.com")) activeBlockedDomains.push("youtube.com");
+          if (!activeBlockedDomains.includes("youtu.be")) activeBlockedDomains.push("youtu.be");
+        } else {
+          activeBlockedDomains = activeBlockedDomains.filter(d => d !== "youtube.com" && d !== "youtu.be");
         }
         saveToStorage();
       });
